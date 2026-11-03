@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FORMA — Estúdio criativo, Maputo</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;600;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;color:#ECE4D4;background-color:#16130F;background-image:linear-gradient(rgba(22,19,15,.72),rgba(22,19,15,.92)),url('https://i.pinimg.com/1200x/a4/ad/a0/a4ada062e81e346c168adf2a9c314417.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;overflow-x:hidden}
@@ -33,7 +33,9 @@ main{max-width:1400px;margin:0 auto;padding:122px 20px 40px}
 .view{display:none}
 .view.on{display:block}
 #v-inicio.on{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 162px)}
-.homephrase{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(20px,3vw,30px);line-height:1.3;text-align:center;max-width:760px;margin:0 auto 26px;padding:0 10px;cursor:pointer}
+.homephrase{font-family:'Courier Prime',monospace;font-weight:400;font-size:clamp(17px,2.4vw,26px);line-height:1.5;text-align:center;max-width:760px;margin:0 auto 26px;padding:0 10px;cursor:pointer}
+.homephrase .caret{display:inline-block;width:2px;height:1em;background:#ECE4D4;margin-left:4px;vertical-align:-0.12em;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
 .strip{overflow:hidden;padding-bottom:6px}
 .striptrack{display:flex;gap:2px;width:max-content;animation:stripscroll 32s linear infinite}
 @keyframes stripscroll{to{transform:translateX(-50%)}}
@@ -148,7 +150,7 @@ body{background-attachment:scroll}
 </header>
 <div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('servicos')">serviços</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
 <main>
-<div id="v-inicio" class="view on"><div class="homephrase" onclick="go('sobre')">FORMA é um estúdio criativo de Maputo — design, marca, fotografia e vídeo para marcas que querem ser lembradas.</div><div class="strip" id="strip"></div></div>
+<div id="v-inicio" class="view on"><div class="homephrase" onclick="go('sobre')"><span id="phrasetext"></span><span class="caret"></span></div><div class="strip" id="strip"></div></div>
 <div id="v-caso" class="view"><div id="caseBox"></div></div>
 <div id="v-arquivo" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">arquivo</h1><div class="grid3" id="grid3"></div></div>
 <div id="v-sobre" class="view"><div id="aboutBox"></div></div>
@@ -208,7 +210,9 @@ function toggleMenu(){$('menuov').classList.toggle('on')}
 function tickClock(){try{$('localTime').textContent=new Intl.DateTimeFormat('pt-MZ',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Maputo'}).format(new Date())}catch(e){}}
 function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
 function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span></div>`).join('')}
-function renderHome(){$('strip').innerHTML=`<div class="striptrack">${[...PROJECTS,...PROJECTS].map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}</div>`}
+function renderHome(){$('strip').innerHTML=`<div class="striptrack">${[...PROJECTS,...PROJECTS].map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}</div>`;setTimeout(typePhrase,900)}
+const PHRASE='FORMA é um estúdio criativo de Maputo — design, marca, fotografia e vídeo para marcas que querem ser lembradas.';
+function typePhrase(){const el=document.getElementById('phrasetext');if(!el)return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=PHRASE;return}el.textContent='';let i=0;clearInterval(window._tp);window._tp=setInterval(()=>{i++;el.textContent=PHRASE.slice(0,i);if(i>=PHRASE.length)clearInterval(window._tp)},38)}
 function openCase(id){CURCASE=id;go('caso')}
 function renderCase(){
 const p=PROJECTS.find(x=>x.id===CURCASE);if(!p){go('inicio');return}
