@@ -16,7 +16,7 @@ h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em}
 #intro{position:fixed;inset:0;background:#16130F;z-index:100;display:flex;align-items:center;justify-content:center;animation:introfade 1.6s ease .9s forwards;pointer-events:none}
 #intro span{font-size:clamp(64px,16vw,200px);font-weight:800;text-transform:lowercase;letter-spacing:-.04em}
 @keyframes introfade{to{opacity:0;visibility:hidden}}
-@media(prefers-reduced-motion:reduce){#intro{display:none}.striptrack{animation:none}}
+@media(prefers-reduced-motion:reduce){#intro{display:none}.striptrack{animation:none}.circ{animation:none;opacity:1}}
 .hdr{position:fixed;top:0;left:0;right:0;background:#16130F;display:flex;align-items:center;gap:18px;padding:18px 20px;border-bottom:1px solid #2E2820;z-index:50}
 .logo{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;line-height:1.5}
 .logo small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;color:#9A8F7A}
@@ -30,6 +30,13 @@ main{max-width:1400px;margin:0 auto;padding:86px 20px 40px}
 .view{display:none}
 .view.on{display:block}
 #v-inicio.on{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 126px)}
+.circlewrap{position:relative;width:min(640px,100%);aspect-ratio:1;margin:6px auto 10px}
+.circ{position:absolute;width:26%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:2px solid transparent;background:#221C15;padding:0;opacity:0;animation:circin .7s ease forwards}
+.circ.cur{border-color:#7E8C6F}
+.circ img{width:100%;height:100%;object-fit:contain;display:block}
+.circcenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:46%}
+.circcenter b{font-size:clamp(20px,4vw,34px);font-weight:800;text-transform:lowercase;line-height:1}
+@keyframes circin{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
 .strip{overflow:hidden;padding-bottom:6px}
 .striptrack{display:flex;gap:2px;width:max-content;animation:stripscroll 32s linear infinite}
 @keyframes stripscroll{to{transform:translateX(-50%)}}
@@ -205,6 +212,7 @@ const idx=PROJECTS.findIndex(x=>x.id===p.id);
 const nx=PROJECTS[(idx+1)%PROJECTS.length];
 $('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag">FORMA — Estúdio criativo</span><h1>${esc(p.title)}</h1><div class="meta"><span>${esc(p.client)} / ${p.year}</span><span>${esc(p.services)}</span></div></div><div class="right"><img src="${p.img}"></div></div>
 <p class="intro">${esc(p.intro)}</p>
+<div class="numsec"><div class="lab">outros temas</div><div class="circlewrap">${PROJECTS.map((q,i)=>{const a=(-90+i*72)*Math.PI/180;const x=(50+34*Math.cos(a)).toFixed(2);const y=(50+34*Math.sin(a)).toFixed(2);return `<button class="circ${q.id===p.id?' cur':''}" style="left:${x}%;top:${y}%;margin-left:-13%;margin-top:-13%;animation-delay:${(i*0.16).toFixed(2)}s" onclick="openCase('${q.id}')"><img src="${q.img}"></button>`}).join('')}<div class="circcenter"><b>${esc(p.title)}</b><div class="mut" style="margin-top:8px">clica noutro tema</div></div></div></div>
 <div class="numsec"><div class="lab">01. direção de arte</div><img src="${p.gal}"></div>
 <div class="numsec"><div class="lab">02. imagem</div><img src="${p.img}"></div>
 <div class="numsec"><div class="lab">03. resultado</div><p style="font-size:19px;line-height:1.6;max-width:720px">${esc(p.result||'')}</p></div>
