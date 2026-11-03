@@ -8,6 +8,7 @@
 <style>
 *{margin:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;color:#ECE4D4;background-color:#16130F;background-image:linear-gradient(rgba(22,19,15,.72),rgba(22,19,15,.92)),url('https://i.pinimg.com/1200x/a4/ad/a0/a4ada062e81e346c168adf2a9c314417.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;overflow-x:hidden}
+body.home{background-color:#0B0906;background-image:linear-gradient(rgba(10,8,5,.30),rgba(10,8,5,.30)),url('images/fundo-inicial.jpg');background-size:cover,contain;background-position:center,center;background-repeat:no-repeat,no-repeat}
 a{color:inherit}
 button{font-family:inherit;cursor:pointer}
 input,select,textarea{font-family:inherit;font-size:15px;padding:12px;border:1px solid #3A332A;background:#221C15;color:#ECE4D4;width:100%;border-radius:0}
@@ -139,7 +140,7 @@ body{background-attachment:scroll}
 }
 </style>
 </head>
-<body>
+<body class="home">
 <div id="intro"><span>forma</span></div>
 <header class="hdr">
 <span class="logo" onclick="go('inicio')">FORMA<small>MAPUTO</small></span>
@@ -284,6 +285,7 @@ function servDel(i){if(!confirm('Apagar este serviço?'))return;SERVICES.splice(
 function saveAbout(){ABOUT.intro=$('fAbout').value.trim();save('forma_about',ABOUT);alert('Texto guardado.')}
 function saveSettings(){SETTINGS.whatsapp=$('fWa').value.trim();SETTINGS.email=$('fEmail').value.trim();save('forma_settings',SETTINGS);alert('Definições guardadas.')}
 function go(v){
+document.body.classList.toggle('home',v==='inicio');
 document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
 const el=$('v-'+v);if(el)el.classList.add('on');
 if(v==='inicio')renderHome();
