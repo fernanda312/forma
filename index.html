@@ -44,7 +44,7 @@ main{max-width:1400px;margin:0 auto;padding:122px 20px 40px}
 .casehero .left{padding:40px 30px 30px 0;display:flex;flex-direction:column}
 .casehero .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#C9BFA8}
 .casehero h1{font-size:clamp(48px,7vw,110px);font-weight:800;line-height:.95;margin-top:22px}
-.casehero .meta{margin-top:auto;display:flex;gap:30px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#C9BFA8;padding-top:30px}
+.casehero .meta{margin-top:auto;display:flex;gap:30px;flex-wrap:wrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#C9BFA8;padding-top:30px}
 .casehero .right img{width:100%;height:100%;object-fit:contain;background:#221C15;display:block}
 .intro{font-size:clamp(20px,2.6vw,30px);line-height:1.4;padding:50px 0;max-width:900px}
 .numsec{padding:44px 0;border-top:1px solid #2E2820}
@@ -54,7 +54,8 @@ main{max-width:1400px;margin:0 auto;padding:122px 20px 40px}
 .next h2{font-size:clamp(40px,8vw,110px);font-weight:800;line-height:.95}
 .next img{width:180px;height:120px;object-fit:contain;background:#221C15;flex:0 0 180px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.grid3 button{border:0;background:#221C15;padding:0;overflow:hidden}
+.grid3 button{border:0;background:#221C15;padding:0;overflow:hidden;text-align:left}
+.grid3 button span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9BFA8;padding:9px 6px}
 .grid3 img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#221C15;display:block}
 .about h1{font-size:clamp(44px,7vw,100px);font-weight:800;line-height:.95;margin:30px 0}
 .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:30px 0}
@@ -214,13 +215,13 @@ const idx=PROJECTS.findIndex(x=>x.id===p.id);
 const nx=PROJECTS[(idx+1)%PROJECTS.length];
 const own=(p.own&&p.own.length)?p.own:[p.gal];
 const gal=own.slice(1);
-$('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag">FORMA — Estúdio criativo</span><h1>${esc(p.title)}</h1><div class="meta"><span>${esc(p.client)} / ${p.year}</span><span>${esc(p.services)}</span></div></div><div class="right"><img src="${own[0]}"></div></div>
+$('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag">FORMA — Estúdio criativo</span><h1>${esc(p.title)}</h1><div class="meta"><span>${esc(p.client)} / ${p.year}</span><span>${esc(p.services)}</span><span>projeto ${idx+1} de ${PROJECTS.length}</span></div></div><div class="right"><img src="${own[0]}"></div></div>
 <p class="intro">${esc(p.intro)}</p>
 ${gal.length?`<div class="numsec"><div class="lab">galeria do tema</div>${gal.map(src=>`<img src="${src}" style="margin-bottom:2px">`).join('')}</div>`:''}
 <div class="numsec"><div class="lab">resultado</div><p style="font-size:19px;line-height:1.6;max-width:720px">${esc(p.result||'')}</p></div>
 <div class="next" onclick="openCase('${nx.id}')"><h2>next project<br>${esc(nx.title)}</h2><span class="btnw">→</span></div>`;
 }
-function renderArquivo(){$('grid3').innerHTML=PROJECTS.map(p=>{const own=(p.own&&p.own.length)?p.own:[p.gal];return own.map(src=>`<button onclick="openCase('${p.id}')"><img src="${src}"></button>`).join('')}).join('')}
+function renderArquivo(){$('grid3').innerHTML=PROJECTS.map(p=>{const own=(p.own&&p.own.length)?p.own:[p.gal];return own.map(src=>`<button onclick="openCase('${p.id}')"><img src="${src}"><span>${esc(p.title)}</span></button>`).join('')}).join('')}
 function renderSobre(){
 $('aboutBox').innerHTML=`<h1>sobre</h1><section class="manifesto" style="padding-top:20px"><h2>não fazemos design bonito.<br>fazemos marcas que ficam.</h2></section><p style="font-size:20px;line-height:1.5;max-width:800px">${esc(ABOUT.intro)}</p><div class="stats"><div><b>40+</b><span>projetos entregues</span></div><div><b>25</b><span>clientes</span></div><div><b>12</b><span>anos de estúdio</span></div><div><b>03</b><span>cidades</span></div></div>
 <div class="vals">${ABOUT.vals.map((v,i)=>`<div><b>0${i+1}. ${esc(v[0])}</b><p>${esc(v[1])}</p></div>`).join('')}</div>
