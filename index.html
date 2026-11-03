@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FORMA — Estúdio criativo, Maputo</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;color:#ECE4D4;background-color:#16130F;background-image:linear-gradient(rgba(22,19,15,.72),rgba(22,19,15,.92)),url('https://i.pinimg.com/1200x/a4/ad/a0/a4ada062e81e346c168adf2a9c314417.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;overflow-x:hidden}
@@ -12,7 +12,10 @@ a{color:inherit}
 button{font-family:inherit;cursor:pointer}
 input,select,textarea{font-family:inherit;font-size:15px;padding:12px;border:1px solid #3A332A;background:#221C15;color:#ECE4D4;width:100%;border-radius:0}
 ::placeholder{color:#9A8F7A}
-h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em}
+h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em;font-family:'Fraunces',serif;font-weight:700}
+.menuov a{font-family:'Fraunces',serif;font-weight:700}
+.vals b,.servview b{font-family:'Fraunces',serif;font-weight:700}
+p{font-weight:300}
 #intro{position:fixed;inset:0;background:#16130F;z-index:100;display:flex;align-items:center;justify-content:center;animation:introfade 1.6s ease .9s forwards;pointer-events:none}
 #intro span{font-size:clamp(64px,16vw,200px);font-weight:800;text-transform:lowercase;letter-spacing:-.04em}
 @keyframes introfade{to{opacity:0;visibility:hidden}}
@@ -21,15 +24,15 @@ h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em}
 .logo{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;line-height:1.5}
 .logo small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;color:#9A8F7A}
 .hdr .sp{flex:1}
-.hbtn{background:none;border:0;color:#ECE4D4;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.hbtn{background:#221C15;border:1px solid #ECE4D4;color:#ECE4D4;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:9px 14px}
 .hstack{display:flex;flex-direction:column;gap:8px}
 .clock{font-size:12px;font-weight:700;letter-spacing:.12em;text-align:right}
 .clock small{display:block;font-size:9px;color:#9A8F7A;letter-spacing:.18em}
 .dot{width:14px;height:14px;border:1px solid #ECE4D4;border-radius:50%;flex:0 0 14px}
-main{max-width:1400px;margin:0 auto;padding:86px 20px 40px}
+main{max-width:1400px;margin:0 auto;padding:122px 20px 40px}
 .view{display:none}
 .view.on{display:block}
-#v-inicio.on{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 126px)}
+#v-inicio.on{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 162px)}
 .strip{overflow:hidden;padding-bottom:6px}
 .striptrack{display:flex;gap:2px;width:max-content;animation:stripscroll 32s linear infinite}
 @keyframes stripscroll{to{transform:translateX(-50%)}}
@@ -62,33 +65,34 @@ main{max-width:1400px;margin:0 auto;padding:86px 20px 40px}
 .steps div{display:flex;gap:20px;padding:20px 0;border-top:1px solid #2E2820}
 .steps b{font-size:15px;color:#9A8F7A;flex:0 0 40px}
 .steps p{line-height:1.6;color:#C9BFA8}
-.contact{background:#7E8C6F;color:#39412F;min-height:calc(100vh - 86px);padding:30px 20px;margin:0 -20px}
+.contact{background:#7E8C6F;color:#39412F;min-height:calc(100vh - 122px);padding:30px 20px;margin:0 -20px}
 .contact h1{font-size:clamp(44px,8vw,110px);font-weight:800;line-height:.95}
 .contact .sub{margin:14px 0 26px;font-size:17px}
 .tabs{display:flex;gap:22px;margin-bottom:26px}
-.tabs button{background:none;border:0;color:#39412F;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding-bottom:6px}
-.tabs button.on{border-bottom:2px solid #39412F}
+.tabs button{background:transparent;border:1.5px solid #39412F;color:#39412F;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:10px 16px}
+.tabs button.on{background:#39412F;color:#ECE4D4}
 .contact input,.contact textarea,.contact select{background:#fff;color:#222;border:1px solid #39412F}
 .contact label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;margin:16px 0 6px}
 .chks{display:flex;flex-wrap:wrap;gap:8px}
 .chks label{margin:0;text-transform:none;letter-spacing:0;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid #39412F;padding:8px 12px;cursor:pointer}
 .chks input{width:auto}
-.send{background:none;border:0;border-bottom:2px solid #39412F;color:#39412F;font-size:18px;font-weight:800;padding:6px 2px;margin-top:24px}
+.send{background:#39412F;border:2px solid #39412F;color:#ECE4D4;font-size:18px;font-weight:800;padding:16px 26px;margin-top:24px;box-shadow:4px 4px 0 rgba(0,0,0,.25)}
 .menuov{position:fixed;inset:0;background:#0E0C09;z-index:80;display:none;flex-direction:column;padding:22px}
 .menuov.on{display:flex}
 .menuov a{display:block;font-size:clamp(44px,9vw,96px);font-weight:800;text-transform:lowercase;letter-spacing:-.02em;color:#ECE4D4;text-decoration:none;padding:8px 0;cursor:pointer}
-.menuov .mclose{align-self:flex-end;background:none;border:0;color:#ECE4D4;font-size:26px}
+.menuov .mclose{align-self:flex-end;background:#221C15;border:1px solid #ECE4D4;color:#ECE4D4;font-size:26px;padding:6px 14px}
 .menuov .mfoot{margin-top:auto;display:flex;gap:20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9A8F7A}
 .menuov .mfoot a{font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:0}
 .bcard{border:1px solid #2E2820;padding:18px;margin-bottom:14px;background:#221C15}
 .bcard h3{font-size:17px}
 table{width:100%;border-collapse:collapse;font-size:14px}
+table button{background:#221C15;color:#ECE4D4;border:1.5px solid #ECE4D4;padding:8px 14px;font-weight:700}
 th,td{text-align:left;padding:10px;border-bottom:1px solid #2E2820;vertical-align:top}
 .adminnav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-.adminnav button{border:1px solid #3A332A;background:#221C15;color:#ECE4D4;padding:9px 16px;font-weight:700;border-radius:0}
+.adminnav button{border:2px solid #3A332A;background:#221C15;color:#ECE4D4;padding:10px 18px;font-weight:700;border-radius:0;box-shadow:3px 3px 0 rgba(0,0,0,.4)}
 .adminnav button.on{background:#ECE4D4;color:#16130F}
-.btn{background:#ECE4D4;color:#16130F;border:0;padding:14px 22px;font-weight:700;font-size:15px;border-radius:0}
-.btnw{background:transparent;color:#ECE4D4;border:1px solid #3A332A;padding:12px 20px;font-weight:700;border-radius:0}
+.btn{background:#ECE4D4;color:#16130F;border:2px solid #ECE4D4;padding:16px 26px;font-weight:700;font-size:15px;border-radius:0;box-shadow:4px 4px 0 rgba(0,0,0,.45)}
+.btnw{background:#221C15;color:#ECE4D4;border:2px solid #ECE4D4;padding:14px 22px;font-weight:700;border-radius:0;box-shadow:4px 4px 0 rgba(0,0,0,.45)}
 .mut{color:#9A8F7A;font-size:13px}
 .manifesto{padding:90px 0 30px}
 .manifesto h2{font-size:clamp(40px,7vw,96px);font-weight:800;line-height:.98}
@@ -170,7 +174,11 @@ P('editorial-noir','editorial noir','Editorial de moda',2025,'Direção criativa
 P('fachada-viva','fachada viva','Arquitetura',2025,'Direção criativa / Fotografia de arquitetura',IMG.a1,IMG.a2,'O edifício como padrão. Olhar de baixo para cima, onde a fachada vira desenho.','Série entregue para portfólio e imprensa de arquitetura.',[IMG.a2,'https://images.pexels.com/photos/9458996/pexels-photo-9458996.jpeg?auto=compress&cs=tinysrgb&w=1260','https://images.pexels.com/photos/33410957/pexels-photo-33410957.jpeg?auto=compress&cs=tinysrgb&w=1260']),
 P('lounge-escuro','lounge escuro','Interiores',2024,'Direção criativa / Design de interiores',IMG.i1,IMG.i2,'Interiores que se vivem à noite. Luz quente, curvas suaves e sombra como material.','Imagens entregues para catálogo e redes do espaço.',[IMG.i2,'https://images.pexels.com/photos/28254550/pexels-photo-28254550.jpeg?auto=compress&cs=tinysrgb&w=1260','https://images.pexels.com/photos/39828898/pexels-photo-39828898.jpeg?auto=compress&cs=tinysrgb&w=1260']),
 P('poltrona-chesterfield','poltrona chesterfield','Mobiliário',2025,'Design de produto / Fotografia',IMG.m1,IMG.m2,'Um clássico fotografado como objeto de desejo. Couro, botão e sombra, sem ruído.','Fotografia de produto entregue para loja e catálogo.',[IMG.m2,'https://images.pexels.com/photos/32562036/pexels-photo-32562036.jpeg?auto=compress&cs=tinysrgb&w=1260','https://images.pexels.com/photos/35908310/pexels-photo-35908310/free-photo-of-poltrona-vintage-elegante-ao-lado-de-janela-iluminada-pelo-sol.jpeg?auto=compress&w=1260&h=750&dpr=1']),
-P('beleza-em-close','beleza em close','Campanha de beleza',2024,'Direção criativa / Fotografia de beleza',IMG.c1,IMG.c2,'A beleza a centímetros de distância. Pele, luz e cor, sem retoque que apague a pessoa.','Campanha entregue em formatos para redes, imprensa e loja.',[IMG.c2,'https://images.pexels.com/photos/31443956/pexels-photo-31443956.jpeg?auto=compress&cs=tinysrgb&w=1260','https://images.pexels.com/photos/36701323/pexels-photo-36701323/free-photo-of-retrato-elegante-de-uma-mulher-em-estudio.jpeg?auto=compress&w=1260&h=750&dpr=1'])
+P('beleza-em-close','beleza em close','Campanha de beleza',2024,'Direção criativa / Fotografia de beleza',IMG.c1,IMG.c2,'A beleza a centímetros de distância. Pele, luz e cor, sem retoque que apague a pessoa.','Campanha entregue em formatos para redes, imprensa e loja.',[IMG.c2,'https://images.pexels.com/photos/31443956/pexels-photo-31443956.jpeg?auto=compress&cs=tinysrgb&w=1260','https://images.pexels.com/photos/36701323/pexels-photo-36701323/free-photo-of-retrato-elegante-de-uma-mulher-em-estudio.jpeg?auto=compress&w=1260&h=750&dpr=1']),
+P('marca-viva','marca viva','Identidade de marca',2025,'Design de marca / Direção criativa','https://i.pinimg.com/736x/35/95/45/359545d93bc825d2467b92d919fecea1.jpg','https://i.pinimg.com/736x/9e/b9/dc/9eb9dc1cb59ed684ea029a3b2458c796.jpg','Identidade desenhada do zero: papel, cor e tipografia a falarem a mesma língua.','Identidade entregue com manual e ficheiros para todos os formatos.',['https://i.pinimg.com/736x/9e/b9/dc/9eb9dc1cb59ed684ea029a3b2458c796.jpg','https://i.pinimg.com/736x/27/be/aa/27beaa97af8b9c15ce2a37078d06e35c.jpg','https://i.pinimg.com/736x/b1/b3/ae/b1b3ae84927fdec902e80ca51666ddd1.jpg']),
+P('ecra-limpo','ecrã limpo','Design digital',2025,'Design digital e UI / Direção criativa','https://i.pinimg.com/736x/4b/65/d5/4b65d5051928507c2fe450fa3a8c959f.jpg','https://i.pinimg.com/736x/32/1f/a7/321fa7743f4389eeb137e1b6a61a9d3b.jpg','Ecrãs sem ruído. O desenho digital que deixa o conteúdo respirar.','Site entregue com desenho responsivo e guia de uso.',['https://i.pinimg.com/736x/32/1f/a7/321fa7743f4389eeb137e1b6a61a9d3b.jpg','https://i.pinimg.com/736x/f5/6f/80/f56f8099598886f839e09222d3a6c878.jpg','https://i.pinimg.com/736x/43/fd/aa/43fdaa65533b0605dbfed2eb5ac0cd66.jpg']),
+P('filme-curto','filme curto','Vídeo',2024,'Vídeo e motion / Direção criativa','https://i.pinimg.com/736x/ac/a0/6f/aca06fe12b99aa12eeba12f4cec31008.jpg','https://i.pinimg.com/736x/1f/48/b9/1f48b9407b140b74274e55db625d713c.jpg','Filmes curtos com luz de cinema. A história contada em segundos.','Filme entregue em formatos para redes, cinema e televisão.',['https://i.pinimg.com/736x/1f/48/b9/1f48b9407b140b74274e55db625d713c.jpg','https://i.pinimg.com/736x/66/f5/22/66f5220ea99ee1a6ae286712b037cc0a.jpg','https://i.pinimg.com/736x/ab/36/f2/ab36f2ec266c1d18458036033099d36d.jpg']),
+P('rua-viva','rua viva','Fotografia documental',2025,'Fotografia / Direção criativa','https://i.pinimg.com/736x/07/1e/06/071e067cd7f01d9a0a9232118a152105.jpg','https://i.pinimg.com/1200x/f1/6f/79/f16f79f5e01bec4896ab2831a0598ed2.jpg','A cidade como ela é. Ruas, rostos e luz de Maputo, sem encenação.','Série entregue em 30 imagens finais, pronta para exposição.',['https://i.pinimg.com/1200x/f1/6f/79/f16f79f5e01bec4896ab2831a0598ed2.jpg','https://i.pinimg.com/736x/d6/dd/1b/d6dd1be46c5796fa297a1a62a381e4ec.jpg','https://i.pinimg.com/736x/7b/a6/e5/7ba6e56eb1bc77456c512af81fd4d0f4.jpg'])
 ];
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -210,7 +218,7 @@ $('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag
 <p class="intro">${esc(p.intro)}</p>
 ${gal.length?`<div class="numsec"><div class="lab">galeria do tema</div>${gal.map(src=>`<img src="${src}" style="margin-bottom:2px">`).join('')}</div>`:''}
 <div class="numsec"><div class="lab">resultado</div><p style="font-size:19px;line-height:1.6;max-width:720px">${esc(p.result||'')}</p></div>
-<div class="next" onclick="openCase('${nx.id}')"><h2>next project<br>${esc(nx.title)}</h2></div>`;
+<div class="next" onclick="openCase('${nx.id}')"><h2>next project<br>${esc(nx.title)}</h2><span class="btnw">→</span></div>`;
 }
 function renderArquivo(){$('grid3').innerHTML=PROJECTS.map(p=>{const own=(p.own&&p.own.length)?p.own:[p.gal];return own.map(src=>`<button onclick="openCase('${p.id}')"><img src="${src}"></button>`).join('')}).join('')}
 function renderSobre(){
