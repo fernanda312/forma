@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;color:#ECE4D4;background:#16130F}
+body{font-family:'Inter',sans-serif;color:#ECE4D4;background:#16130F linear-gradient(rgba(22,19,15,.62),rgba(22,19,15,.88)),url('https://i.pinimg.com/1200x/a4/ad/a0/a4ada062e81e346c168adf2a9c314417.jpg') center/cover fixed}
 a{color:inherit}
 button{font-family:inherit;cursor:pointer}
 input,select,textarea{font-family:inherit;font-size:15px;padding:12px;border:1px solid #3A332A;background:#221C15;color:#ECE4D4;width:100%;border-radius:0}
@@ -87,6 +87,29 @@ th,td{text-align:left;padding:10px;border-bottom:1px solid #2E2820;vertical-alig
 .btn{background:#ECE4D4;color:#16130F;border:0;padding:14px 22px;font-weight:700;font-size:15px;border-radius:0}
 .btnw{background:transparent;color:#ECE4D4;border:1px solid #3A332A;padding:12px 20px;font-weight:700;border-radius:0}
 .mut{color:#9A8F7A;font-size:13px}
+.manifesto{padding:90px 0 30px}
+.manifesto h2{font-size:clamp(40px,7vw,96px);font-weight:800;line-height:.98}
+.manifesto p{font-size:19px;line-height:1.6;color:#C9BFA8;max-width:720px;margin-top:22px}
+.seclab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9A8F7A;margin:50px 0 6px}
+.servlist div{display:flex;align-items:center;gap:18px;padding:22px 0;border-top:1px solid #2E2820;cursor:pointer}
+.servlist b{font-size:clamp(22px,3.4vw,38px);font-weight:800;text-transform:lowercase}
+.servlist .num{font-size:13px;color:#9A8F7A;flex:0 0 34px}
+.servlist .pr{margin-left:auto;font-size:13px;letter-spacing:.1em;color:#C9BFA8;white-space:nowrap}
+.servlist .ar{font-size:22px;color:#9A8F7A}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin:50px 0}
+.stats div{background:#221C15;padding:26px}
+.stats b{font-size:34px;display:block}
+.stats span{color:#9A8F7A;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.cta{padding:70px 0 40px}
+.cta h2{font-size:clamp(40px,7vw,96px);font-weight:800;line-height:.98;margin-bottom:26px}
+.foot{border-top:1px solid #2E2820;padding:50px 0 16px}
+.wordmark{font-size:clamp(64px,18vw,250px);font-weight:800;line-height:.85;letter-spacing:-.04em;text-transform:lowercase}
+.footcols{display:flex;gap:40px;flex-wrap:wrap;margin-top:30px;font-size:13px;line-height:2}
+.footcols button{background:none;border:0;color:#C9BFA8;padding:0;font-size:13px;display:block;text-align:left}
+.servview div{display:flex;gap:20px;padding:26px 0;border-top:1px solid #2E2820}
+.servview b{font-size:clamp(22px,3.4vw,36px);font-weight:800;text-transform:lowercase;flex:0 0 34%;}
+.servview p{color:#C9BFA8;line-height:1.6}
+.servview .pr{font-size:13px;letter-spacing:.1em;color:#C9BFA8;white-space:nowrap}
 @media(max-width:760px){
 .hdr .hidem{display:none}
 .casehero{grid-template-columns:1fr}
@@ -96,6 +119,9 @@ th,td{text-align:left;padding:10px;border-bottom:1px solid #2E2820;vertical-alig
 .grid3{grid-template-columns:1fr 1fr}
 .vals{grid-template-columns:1fr}
 .next img{width:110px;height:74px;flex:0 0 110px}
+.stats{grid-template-columns:1fr 1fr}
+.servview div{flex-direction:column}
+.servview b{flex:none}
 }
 </style>
 </head>
@@ -108,12 +134,18 @@ th,td{text-align:left;padding:10px;border-bottom:1px solid #2E2820;vertical-alig
 <div class="clock"><span id="localTime">--:--</span><small>LOCAL TIME</small></div>
 <span class="dot"></span>
 </header>
-<div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
+<div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('servicos')">serviços</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
 <main>
-<div id="v-inicio" class="view on"><div class="strip" id="strip"></div></div>
+<div id="v-inicio" class="view on"><div class="strip" id="strip"></div>
+<section class="manifesto"><h2>não fazemos design bonito.<br>fazemos marcas que ficam.</h2><p>Um estúdio criativo de Maputo para marcas, espaços e campanhas que querem ser lembradas. Direção criativa, design, fotografia e vídeo — tudo debaixo do mesmo teto, com o mesmo rigor.</p></section>
+<div class="seclab">serviços</div><div id="homeServ" class="servlist"></div>
+<div class="stats"><div><b>40+</b><span>projetos entregues</span></div><div><b>25</b><span>clientes</span></div><div><b>12</b><span>anos de estúdio</span></div><div><b>03</b><span>cidades</span></div></div>
+<section class="cta"><h2>vamos criar algo grandioso</h2><button class="btn" onclick="go('contacto')">Começar um projeto →</button></section>
+<footer class="foot"><div class="wordmark">forma</div><div class="footcols"><div><button onclick="go('inicio')">início</button><button onclick="go('arquivo')">arquivo</button><button onclick="go('sobre')">sobre</button><button onclick="go('servicos')">serviços</button><button onclick="go('contacto')">contacto</button><button onclick="go('conta')">conta</button></div><div><button onclick="waChat()">WhatsApp</button><div style="color:#C9BFA8">Maputo, Moçambique</div><div style="color:#9A8F7A">© 2026 FORMA</div></div></div></footer></div>
 <div id="v-caso" class="view"><div id="caseBox"></div></div>
 <div id="v-arquivo" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">arquivo</h1><div class="grid3" id="grid3"></div></div>
 <div id="v-sobre" class="view"><div id="aboutBox"></div></div>
+<div id="v-servicos" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">serviços</h1><div class="servview" id="servView"></div><section class="cta"><h2>vamos criar algo grandioso</h2><button class="btn" onclick="go('contacto')">Começar um projeto →</button></section></div>
 <div id="v-contacto" class="view"><div class="contact"><h1>let's build together</h1><p class="sub">Conta-nos o teu projeto e respondemos em 48 horas.</p><div class="tabs"><button id="tabCliente" class="on" onclick="tabContacto('cliente')">Client</button><button id="tabTalento" onclick="tabContacto('talento')">Talent</button><button id="tabEmail" onclick="tabContacto('email')">Email</button></div><div id="briefBox"></div></div></div>
 <div id="v-conta" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">conta</h1><div id="accBox"></div></div>
 <div id="v-admin" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">gerência</h1><div class="adminnav" id="adminNav"></div><div id="adminBox"></div></div>
@@ -131,17 +163,25 @@ m2:'https://images.pexels.com/photos/39680454/pexels-photo-39680454/free-photo-o
 c1:'https://images.pexels.com/photos/36537445/pexels-photo-36537445/free-photo-of-portrait-of-woman-holding-cosmetic-product.jpeg?auto=compress&w=1260&h=750&dpr=1',
 c2:'https://images.pexels.com/photos/31579771/pexels-photo-31579771/free-photo-of-close-up-portrait-of-woman-with-dark-skin.jpeg?auto=compress&w=1260&h=750&dpr=1'
 };
-function P(id,title,client,year,services,img,gal,intro){return{id,title,client,year,services,img,gal,intro}}
+function P(id,title,client,year,services,img,gal,intro,result){return{id,title,client,year,services,img,gal,intro,result:result||'Entrega final com acompanhamento.'}}
 const PROJECTS_DEFAULT=[
-P('editorial-noir','editorial noir','Editorial de moda',2025,'Direção criativa / Fotografia',IMG.f1,IMG.f2,'Uma série de estúdio a preto e branco sobre silhueta e atitude. A luz desenha o corpo, o resto desaparece.'),
-P('fachada-viva','fachada viva','Arquitetura',2025,'Direção criativa / Fotografia de arquitetura',IMG.a1,IMG.a2,'O edifício como padrão. Olhar de baixo para cima, onde a fachada vira desenho.'),
-P('lounge-escuro','lounge escuro','Interiores',2024,'Direção criativa / Design de interiores',IMG.i1,IMG.i2,'Interiores que se vivem à noite. Luz quente, curvas suaves e sombra como material.'),
-P('poltrona-chesterfield','poltrona chesterfield','Mobiliário',2025,'Design de produto / Fotografia',IMG.m1,IMG.m2,'Um clássico fotografado como objeto de desejo. Couro, botão e sombra, sem ruído.'),
-P('beleza-em-close','beleza em close','Campanha de beleza',2024,'Direção criativa / Fotografia de beleza',IMG.c1,IMG.c2,'A beleza a centímetros de distância. Pele, luz e cor, sem retoque que apague a pessoa.')
+P('editorial-noir','editorial noir','Editorial de moda',2025,'Direção criativa / Fotografia',IMG.f1,IMG.f2,'Uma série de estúdio a preto e branco sobre silhueta e atitude. A luz desenha o corpo, o resto desaparece.','Série entregue em 40 imagens finais, pronta para publicação.'),
+P('fachada-viva','fachada viva','Arquitetura',2025,'Direção criativa / Fotografia de arquitetura',IMG.a1,IMG.a2,'O edifício como padrão. Olhar de baixo para cima, onde a fachada vira desenho.','Série entregue para portfólio e imprensa de arquitetura.'),
+P('lounge-escuro','lounge escuro','Interiores',2024,'Direção criativa / Design de interiores',IMG.i1,IMG.i2,'Interiores que se vivem à noite. Luz quente, curvas suaves e sombra como material.','Imagens entregues para catálogo e redes do espaço.'),
+P('poltrona-chesterfield','poltrona chesterfield','Mobiliário',2025,'Design de produto / Fotografia',IMG.m1,IMG.m2,'Um clássico fotografado como objeto de desejo. Couro, botão e sombra, sem ruído.','Fotografia de produto entregue para loja e catálogo.'),
+P('beleza-em-close','beleza em close','Campanha de beleza',2024,'Direção criativa / Fotografia de beleza',IMG.c1,IMG.c2,'A beleza a centímetros de distância. Pele, luz e cor, sem retoque que apague a pessoa.','Campanha entregue em formatos para redes, imprensa e loja.')
 ];
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 let PROJECTS=load('forma_projects',PROJECTS_DEFAULT);
+let SERVICES=load('forma_services',[
+{title:'direção criativa',desc:'Conceito, história e direção visual de projetos e campanhas.',price:'a partir de 85.000 MT'},
+{title:'design de marca',desc:'Identidade completa: nome, logótipo, cores, tipografia e manual.',price:'a partir de 120.000 MT'},
+{title:'design digital e ui',desc:'Sites e aplicações com desenho limpo e foco em conversão.',price:'a partir de 95.000 MT'},
+{title:'fotografia',desc:'Editorial, produto, arquitetura e retrato, com direção de arte.',price:'a partir de 45.000 MT'},
+{title:'vídeo e motion',desc:'Filmes de marca, campanhas e motion design.',price:'a partir de 75.000 MT'},
+{title:'campanhas',desc:'Campanhas completas, do conceito à entrega em todos os formatos.',price:'a partir de 150.000 MT'}]);
+let EDIT_S=null;
 let ACCOUNTS=load('forma_accounts',[]);
 let SESSION=load('forma_session',null);
 let SETTINGS=load('forma_settings',{whatsapp:'258840000000',email:'ola@forma.co.mz'});
@@ -155,7 +195,8 @@ function isAdmin(){const m=me();return m&&m.is_admin}
 function toggleMenu(){$('menuov').classList.toggle('on')}
 function tickClock(){try{$('localTime').textContent=new Intl.DateTimeFormat('pt-MZ',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Maputo'}).format(new Date())}catch(e){}}
 function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
-function renderHome(){$('strip').innerHTML=PROJECTS.map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}
+function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span></div>`).join('')}
+function renderHome(){$('homeServ').innerHTML=SERVICES.map((s,i)=>`<div onclick="go('servicos')"><span class="num">0${i+1}</span><b>${esc(s.title)}</b><span class="pr">${esc(s.price)}</span><span class="ar">→</span></div>`).join('');$('strip').innerHTML=PROJECTS.map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}
 function openCase(id){CURCASE=id;go('caso')}
 function renderCase(){
 const p=PROJECTS.find(x=>x.id===CURCASE);if(!p){go('inicio');return}
@@ -165,6 +206,7 @@ $('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag
 <p class="intro">${esc(p.intro)}</p>
 <div class="numsec"><div class="lab">01. direção de arte</div><img src="${p.gal}"></div>
 <div class="numsec"><div class="lab">02. imagem</div><img src="${p.img}"></div>
+<div class="numsec"><div class="lab">03. resultado</div><p style="font-size:19px;line-height:1.6;max-width:720px">${esc(p.result||'')}</p></div>
 <div class="next" onclick="openCase('${nx.id}')"><h2>next project<br>${esc(nx.title)}</h2><img src="${nx.img}"></div>`;
 }
 function renderArquivo(){$('grid3').innerHTML=PROJECTS.map(p=>`<button onclick="openCase('${p.id}')"><img src="${p.img}"></button><button onclick="openCase('${p.id}')"><img src="${p.gal}"></button>`).join('')}
@@ -198,14 +240,17 @@ async function loginSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$(
 async function regSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$('aPass').value,n=$('aName').value.trim();if(!e.includes('@')||p.length<4){alert('Escreve um email válido e uma palavra-passe com 4 ou mais caracteres.');return}if(ACCOUNTS.find(x=>x.email===e)){alert('Já existe uma conta com esse email. Entra em vez disso.');return}ACCOUNTS.push({email:e,pass:await sha(p),name:n||e,is_admin:ACCOUNTS.length===0});save('forma_accounts',ACCOUNTS);SESSION=e;save('forma_session',SESSION);go('inicio')}
 function logout(){SESSION=null;save('forma_session',SESSION);go('inicio')}
 
-function adminNavRender(){$('adminNav').innerHTML=[['projetos','Projetos'],['sobre','Sobre'],['definicoes','Definições']].map(t=>`<button class="${ADMIN_TAB===t[0]?'on':''}" onclick="adminTab('${t[0]}')">${t[1]}</button>`).join('')}
+function adminNavRender(){$('adminNav').innerHTML=[['projetos','Projetos'],['servicos','Serviços'],['sobre','Sobre'],['definicoes','Definições']].map(t=>`<button class="${ADMIN_TAB===t[0]?'on':''}" onclick="adminTab('${t[0]}')">${t[1]}</button>`).join('')}
 function adminTab(t){ADMIN_TAB=t;renderAdmin()}
 function renderAdmin(){
 if(!isAdmin()){$('adminBox').innerHTML='<p class="mut">Área reservada à gerência.</p>';return}
 adminNavRender();
 if(ADMIN_TAB==='projetos'){
 $('adminBox').innerHTML=`<table><tr><th>Projeto</th><th>Cliente</th><th>Ano</th><th></th></tr>${PROJECTS.map(p=>`<tr><td>${esc(p.title)}</td><td>${esc(p.client)}</td><td>${p.year}</td><td><button onclick="projEdit('${p.id}')">Editar</button> <button onclick="projDel('${p.id}')">Apagar</button></td></tr>`).join('')}</table>
-<div class="bcard" style="margin-top:16px"><b id="projFormTitle">Novo projeto</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fPTitle" placeholder="Título em minúsculas"><input id="fPClient" placeholder="Cliente"><input id="fPYear" type="number" placeholder="Ano"><input id="fPServ" placeholder="Serviços"><textarea id="fPIntro" placeholder="Texto de introdução"></textarea><label>Foto principal (por ficheiro)</label><input type="file" id="fPPhoto" accept="image/*" onchange="projPhoto(this,'main')"><input type="hidden" id="fPImg"><label>Foto da galeria (por ficheiro)</label><input type="file" id="fPGPhoto" accept="image/*" onchange="projPhoto(this,'gal')"><input type="hidden" id="fPGal"><button class="btn" onclick="projSave()">Guardar projeto</button></div></div>`;
+<div class="bcard" style="margin-top:16px"><b id="projFormTitle">Novo projeto</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fPTitle" placeholder="Título em minúsculas"><input id="fPClient" placeholder="Cliente"><input id="fPYear" type="number" placeholder="Ano"><input id="fPServ" placeholder="Serviços"><textarea id="fPIntro" placeholder="Texto de introdução"></textarea><input id="fPResult" placeholder="Resultado (ex: Série entregue em 40 imagens finais)"><label>Foto principal (por ficheiro)</label><input type="file" id="fPPhoto" accept="image/*" onchange="projPhoto(this,'main')"><input type="hidden" id="fPImg"><label>Foto da galeria (por ficheiro)</label><input type="file" id="fPGPhoto" accept="image/*" onchange="projPhoto(this,'gal')"><input type="hidden" id="fPGal"><button class="btn" onclick="projSave()">Guardar projeto</button></div></div>`;
+}else if(ADMIN_TAB==='servicos'){
+$('adminBox').innerHTML=`<table><tr><th>Serviço</th><th>Preço</th><th></th></tr>${SERVICES.map((s,i)=>`<tr><td>${esc(s.title)}</td><td>${esc(s.price)}</td><td><button onclick="servEdit(${i})">Editar</button> <button onclick="servDel(${i})">Apagar</button></td></tr>`).join('')}</table>
+<div class="bcard" style="margin-top:16px"><b id="servFormTitle">Novo serviço</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fSTitle" placeholder="Título em minúsculas"><textarea id="fSDesc" placeholder="Descrição"></textarea><input id="fSPrice" placeholder="Preço (ex: a partir de 85.000 MT)"><button class="btn" onclick="servSave()">Guardar serviço</button></div></div>`;
 }else if(ADMIN_TAB==='sobre'){
 $('adminBox').innerHTML=`<div class="bcard" style="display:grid;gap:10px;max-width:640px"><b>Sobre o estúdio</b><label>Introdução</label><textarea id="fAbout">${esc(ABOUT.intro)}</textarea><button class="btn" onclick="saveAbout()">Guardar</button></div>`;
 }else{
@@ -213,9 +258,12 @@ $('adminBox').innerHTML=`<div class="bcard" style="display:grid;gap:10px;max-wid
 }
 }
 function projPhoto(inp,which){const f=inp.files[0];if(!f)return;if(f.size>10*1024*1024){alert('A foto deve ter até 10 MB.');return}const r=new FileReader();r.onload=()=>{$(which==='main'?'fPImg':'fPGal').value=r.result;alert('Foto carregada. Guarda o projeto para aplicar.');};r.readAsDataURL(f)}
-function projEdit(id){const p=PROJECTS.find(x=>x.id===id);if(!p)return;EDIT_P=id;renderAdmin();$('projFormTitle').textContent='Editar projeto';$('fPTitle').value=p.title;$('fPClient').value=p.client;$('fPYear').value=p.year;$('fPServ').value=p.services;$('fPIntro').value=p.intro;$('fPImg').value=p.img;$('fPGal').value=p.gal;window.scrollTo(0,document.body.scrollHeight)}
-function projSave(){const title=$('fPTitle').value.trim().toLowerCase(),client=$('fPClient').value.trim(),year=+($('fPYear').value)||new Date().getFullYear(),serv=$('fPServ').value.trim(),intro=$('fPIntro').value.trim(),img=$('fPImg').value,gal=$('fPGal').value;if(!title){alert('Escreve o título do projeto.');return}if(EDIT_P){const p=PROJECTS.find(x=>x.id===EDIT_P);Object.assign(p,{title,client:client||p.client,year,services:serv||p.services,intro:intro||p.intro,img:img||p.img,gal:gal||p.gal});}else{PROJECTS.push(P('p'+Date.now(),title,client||'Projeto',year,serv||'Direção criativa',img||IMG.f1,gal||IMG.f2,intro||title));}EDIT_P=null;save('forma_projects',PROJECTS);renderHome();renderAdmin();alert('Projeto guardado.')}
+function projEdit(id){const p=PROJECTS.find(x=>x.id===id);if(!p)return;EDIT_P=id;renderAdmin();$('projFormTitle').textContent='Editar projeto';$('fPTitle').value=p.title;$('fPClient').value=p.client;$('fPYear').value=p.year;$('fPServ').value=p.services;$('fPIntro').value=p.intro;$('fPResult').value=p.result||'';$('fPImg').value=p.img;$('fPGal').value=p.gal;window.scrollTo(0,document.body.scrollHeight)}
+function projSave(){const title=$('fPTitle').value.trim().toLowerCase(),client=$('fPClient').value.trim(),year=+($('fPYear').value)||new Date().getFullYear(),serv=$('fPServ').value.trim(),intro=$('fPIntro').value.trim(),result=$('fPResult').value.trim(),img=$('fPImg').value,gal=$('fPGal').value;if(!title){alert('Escreve o título do projeto.');return}if(EDIT_P){const p=PROJECTS.find(x=>x.id===EDIT_P);Object.assign(p,{title,client:client||p.client,year,services:serv||p.services,intro:intro||p.intro,result:result||p.result,img:img||p.img,gal:gal||p.gal});}else{PROJECTS.push(P('p'+Date.now(),title,client||'Projeto',year,serv||'Direção criativa',img||IMG.f1,gal||IMG.f2,intro||title,result||'Entrega final com acompanhamento.'));}EDIT_P=null;save('forma_projects',PROJECTS);renderHome();renderAdmin();alert('Projeto guardado.')}
 function projDel(id){if(!confirm('Apagar este projeto?'))return;PROJECTS=PROJECTS.filter(p=>p.id!==id);save('forma_projects',PROJECTS);renderHome();renderAdmin()}
+function servEdit(i){const s=SERVICES[i];EDIT_S=i;renderAdmin();$('servFormTitle').textContent='Editar serviço';$('fSTitle').value=s.title;$('fSDesc').value=s.desc;$('fSPrice').value=s.price}
+function servSave(){const t=$('fSTitle').value.trim().toLowerCase(),d=$('fSDesc').value.trim(),pr=$('fSPrice').value.trim();if(!t){alert('Escreve o título do serviço.');return}if(EDIT_S!==null){SERVICES[EDIT_S]={title:t,desc:d,price:pr}}else{SERVICES.push({title:t,desc:d,price:pr})}EDIT_S=null;save('forma_services',SERVICES);renderHome();renderAdmin();alert('Serviço guardado.')}
+function servDel(i){if(!confirm('Apagar este serviço?'))return;SERVICES.splice(i,1);save('forma_services',SERVICES);renderHome();renderAdmin()}
 function saveAbout(){ABOUT.intro=$('fAbout').value.trim();save('forma_about',ABOUT);alert('Texto guardado.')}
 function saveSettings(){SETTINGS.whatsapp=$('fWa').value.trim();SETTINGS.email=$('fEmail').value.trim();save('forma_settings',SETTINGS);alert('Definições guardadas.')}
 function go(v){
@@ -225,12 +273,13 @@ if(v==='inicio')renderHome();
 if(v==='caso')renderCase();
 if(v==='arquivo')renderArquivo();
 if(v==='sobre')renderSobre();
+if(v==='servicos')renderServicos();
 if(v==='contacto'){tabContacto(CTAB)}
 if(v==='conta')renderConta();
 if(v==='admin')renderAdmin();
 window.scrollTo(0,0);
 }
-function route(){const h=(location.hash||'#inicio').replace('#','');const parts=h.split('/');if(parts[0]==='caso'&&parts[1]){CURCASE=parts[1];go('caso')}else if(['inicio','arquivo','sobre','contacto','conta','admin'].includes(parts[0]))go(parts[0]);else go('inicio')}
+function route(){const h=(location.hash||'#inicio').replace('#','');const parts=h.split('/');if(parts[0]==='caso'&&parts[1]){CURCASE=parts[1];go('caso')}else if(['inicio','arquivo','sobre','servicos','contacto','conta','admin'].includes(parts[0]))go(parts[0]);else go('inicio')}
 window.addEventListener('hashchange',route);
 tickClock();setInterval(tickClock,30000);
 route();renderHome();
