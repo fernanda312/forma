@@ -139,12 +139,7 @@ body{background-attachment:scroll}
 </header>
 <div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('servicos')">serviços</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
 <main>
-<div id="v-inicio" class="view on"><div class="strip" id="strip"></div>
-<section class="manifesto"><h2>não fazemos design bonito.<br>fazemos marcas que ficam.</h2><p>Um estúdio criativo de Maputo para marcas, espaços e campanhas que querem ser lembradas. Direção criativa, design, fotografia e vídeo — tudo debaixo do mesmo teto, com o mesmo rigor.</p></section>
-<div class="seclab">serviços</div><div id="homeServ" class="servlist"></div>
-<div class="stats"><div><b>40+</b><span>projetos entregues</span></div><div><b>25</b><span>clientes</span></div><div><b>12</b><span>anos de estúdio</span></div><div><b>03</b><span>cidades</span></div></div>
-<section class="cta"><h2>vamos criar algo grandioso</h2><button class="btn" onclick="go('contacto')">Começar um projeto →</button></section>
-<footer class="foot"><div class="wordmark">forma</div><div class="footcols"><div><button onclick="go('inicio')">início</button><button onclick="go('arquivo')">arquivo</button><button onclick="go('sobre')">sobre</button><button onclick="go('servicos')">serviços</button><button onclick="go('contacto')">contacto</button><button onclick="go('conta')">conta</button></div><div><button onclick="waChat()">WhatsApp</button><div style="color:#C9BFA8">Maputo, Moçambique</div><div style="color:#9A8F7A">© 2026 FORMA</div></div></div></footer></div>
+<div id="v-inicio" class="view on"><div class="strip" id="strip"></div></div>
 <div id="v-caso" class="view"><div id="caseBox"></div></div>
 <div id="v-arquivo" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">arquivo</h1><div class="grid3" id="grid3"></div></div>
 <div id="v-sobre" class="view"><div id="aboutBox"></div></div>
@@ -199,7 +194,7 @@ function toggleMenu(){$('menuov').classList.toggle('on')}
 function tickClock(){try{$('localTime').textContent=new Intl.DateTimeFormat('pt-MZ',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Maputo'}).format(new Date())}catch(e){}}
 function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
 function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span></div>`).join('')}
-function renderHome(){$('homeServ').innerHTML=SERVICES.map((s,i)=>`<div onclick="go('servicos')"><span class="num">0${i+1}</span><b>${esc(s.title)}</b><span class="pr">${esc(s.price)}</span><span class="ar">→</span></div>`).join('');$('strip').innerHTML=PROJECTS.map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}
+function renderHome(){$('strip').innerHTML=PROJECTS.map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}
 function openCase(id){CURCASE=id;go('caso')}
 function renderCase(){
 const p=PROJECTS.find(x=>x.id===CURCASE);if(!p){go('inicio');return}
@@ -214,7 +209,7 @@ $('caseBox').innerHTML=`<div class="casehero"><div class="left"><span class="tag
 }
 function renderArquivo(){$('grid3').innerHTML=PROJECTS.map(p=>`<button onclick="openCase('${p.id}')"><img src="${p.img}"></button><button onclick="openCase('${p.id}')"><img src="${p.gal}"></button>`).join('')}
 function renderSobre(){
-$('aboutBox').innerHTML=`<h1>sobre</h1><p style="font-size:20px;line-height:1.5;max-width:800px">${esc(ABOUT.intro)}</p>
+$('aboutBox').innerHTML=`<h1>sobre</h1><section class="manifesto" style="padding-top:20px"><h2>não fazemos design bonito.<br>fazemos marcas que ficam.</h2></section><p style="font-size:20px;line-height:1.5;max-width:800px">${esc(ABOUT.intro)}</p><div class="stats"><div><b>40+</b><span>projetos entregues</span></div><div><b>25</b><span>clientes</span></div><div><b>12</b><span>anos de estúdio</span></div><div><b>03</b><span>cidades</span></div></div>
 <div class="vals">${ABOUT.vals.map((v,i)=>`<div><b>0${i+1}. ${esc(v[0])}</b><p>${esc(v[1])}</p></div>`).join('')}</div>
 <h2 style="font-size:30px;margin:20px 0">processo</h2>
 <div class="steps">${[['ver','Olhamos para o problema com calma, antes de qualquer ideia.'],['explorar','Caminhos abertos, referências e testes, sem pressa de fechar.'],['moldar','Definimos tom, história e lógica visual do projeto.'],['criar','A ideia ganha forma final, com rigor em cada detalhe.'],['refinar','Ajustamos até o trabalho ficar exato.'],['evoluir','O projeto continua a crescer depois da entrega.']].map((s,i)=>`<div><b>0${i+1}</b><p><b style="color:#ECE4D4">${s[0]}</b> — ${s[1]}</p></div>`).join('')}</div>`;
