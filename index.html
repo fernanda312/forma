@@ -16,7 +16,7 @@ h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em}
 #intro{position:fixed;inset:0;background:#16130F;z-index:100;display:flex;align-items:center;justify-content:center;animation:introfade 1.6s ease .9s forwards;pointer-events:none}
 #intro span{font-size:clamp(64px,16vw,200px);font-weight:800;text-transform:lowercase;letter-spacing:-.04em}
 @keyframes introfade{to{opacity:0;visibility:hidden}}
-@media(prefers-reduced-motion:reduce){#intro{display:none}}
+@media(prefers-reduced-motion:reduce){#intro{display:none}.striptrack{animation:none}}
 .hdr{position:fixed;top:0;left:0;right:0;background:#16130F;display:flex;align-items:center;gap:18px;padding:18px 20px;border-bottom:1px solid #2E2820;z-index:50}
 .logo{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;line-height:1.5}
 .logo small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;color:#9A8F7A}
@@ -29,8 +29,10 @@ h1,h2,h3{text-transform:lowercase;letter-spacing:-.02em}
 main{max-width:1400px;margin:0 auto;padding:86px 20px 40px}
 .view{display:none}
 .view.on{display:block}
-.strip{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
-.pcard{position:relative;flex:0 0 420px;height:300px;border:0;background:#221C15;padding:0;scroll-snap-align:start;overflow:hidden;text-align:left}
+.strip{overflow:hidden;padding-bottom:6px}
+.striptrack{display:flex;gap:2px;width:max-content;animation:stripscroll 32s linear infinite}
+@keyframes stripscroll{to{transform:translateX(-50%)}}
+.pcard{position:relative;flex:0 0 420px;height:300px;border:0;background:#221C15;padding:0;overflow:hidden;text-align:left}
 .pcard img{width:100%;height:100%;object-fit:contain;background:#221C15}
 .pcard span{position:absolute;left:16px;bottom:14px;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#ECE4D4;text-shadow:0 1px 10px #000}
 .pcard small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;color:#C9BFA8;margin-top:4px}
@@ -194,7 +196,7 @@ function toggleMenu(){$('menuov').classList.toggle('on')}
 function tickClock(){try{$('localTime').textContent=new Intl.DateTimeFormat('pt-MZ',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Maputo'}).format(new Date())}catch(e){}}
 function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
 function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span></div>`).join('')}
-function renderHome(){$('strip').innerHTML=PROJECTS.map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}
+function renderHome(){$('strip').innerHTML=`<div class="striptrack">${[...PROJECTS,...PROJECTS].map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}</div>`}
 function openCase(id){CURCASE=id;go('caso')}
 function renderCase(){
 const p=PROJECTS.find(x=>x.id===CURCASE);if(!p){go('inicio');return}
