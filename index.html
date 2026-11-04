@@ -138,6 +138,16 @@ body{background-attachment:scroll}
 .servview div{flex-direction:column}
 .servview b{flex:none}
 }
+.chatwrap{margin:0 -20px;min-height:calc(100vh - 122px);background:#0E0C09;padding:20px;display:flex;flex-direction:column}
+.chatmsgs{flex:1;display:flex;flex-direction:column;gap:10px;padding:10px 0}
+.msg{max-width:82%;padding:10px 12px;font-size:15px;line-height:1.5}
+.msg img{max-width:100%;display:block}
+.msg.mine{align-self:flex-end;background:#ECE4D4;color:#16130F}
+.msg.theirs{align-self:flex-start;background:#221C15;color:#ECE4D4;border:1px solid #2E2820}
+.msg .mt{font-size:11px;opacity:.65;margin-top:6px}
+.chatin{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.chatin input[type=text]{flex:1;min-width:180px}
+.convbtn{display:block;width:100%;text-align:left;background:#221C15;border:1px solid #2E2820;color:#ECE4D4;padding:12px;margin-bottom:8px;font-size:15px}
 </style>
 </head>
 <body class="home">
@@ -149,7 +159,7 @@ body{background-attachment:scroll}
 <div class="clock"><span id="localTime">--:--</span><small>LOCAL TIME</small></div>
 <span class="dot"></span>
 </header>
-<div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('servicos')">serviços</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
+<div class="menuov" id="menuov"><button class="mclose" onclick="toggleMenu()">✕</button><a onclick="toggleMenu();go('inicio')">início</a><a onclick="toggleMenu();go('arquivo')">arquivo</a><a onclick="toggleMenu();go('servicos')">serviços</a><a onclick="toggleMenu();go('sobre')">sobre</a><a onclick="toggleMenu();go('contacto')">contacto</a><a onclick="toggleMenu();go('conta')">conta</a><a onclick="toggleMenu();go('chat')">chat</a><div class="mfoot"><a onclick="toggleMenu();go('admin')">gerência</a><a onclick="toggleMenu();waChat()">whatsapp</a></div></div>
 <main>
 <div id="v-inicio" class="view on"><div class="homephrase" onclick="go('sobre')"><span id="phrasetext"></span><span class="caret"></span></div><div class="strip" id="strip"></div></div>
 <div id="v-caso" class="view"><div id="caseBox"></div></div>
@@ -158,6 +168,7 @@ body{background-attachment:scroll}
 <div id="v-servicos" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">serviços</h1><div class="servview" id="servView"></div><section class="cta"><h2>vamos criar algo grandioso</h2><button class="btn" onclick="go('contacto')">Começar um projeto →</button></section></div>
 <div id="v-contacto" class="view"><div class="contact"><h1>let's build together</h1><p class="sub">Conta-nos o teu projeto e respondemos em 48 horas.</p><div class="tabs"><button id="tabCliente" class="on" onclick="tabContacto('cliente')">Client</button><button id="tabTalento" onclick="tabContacto('talento')">Talent</button><button id="tabEmail" onclick="tabContacto('email')">Email</button></div><div id="briefBox"></div></div></div>
 <div id="v-conta" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">conta</h1><div id="accBox"></div></div>
+<div id="v-chat" class="view"><div id="chatBox"></div></div>
 <div id="v-admin" class="view"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800;margin:20px 0">gerência</h1><div class="adminnav" id="adminNav"></div><div id="adminBox"></div></div>
 </main>
 <script>
@@ -202,6 +213,7 @@ let SESSION=load('forma_session',null);
 let SETTINGS=load('forma_settings',{whatsapp:'258840000000',email:'ola@forma.co.mz'});
 let ABOUT=load('forma_about',{intro:'A FORMA é um estúdio criativo de Maputo. Trabalhamos imagem, marca e espaço para clientes que querem ser lembrados — não apenas vistos.',vals:[['empatia','Antes de desenhar, ouvimos. O trabalho começa na pessoa, não no briefing.'],['liberdade','Sem fórmulas. Cada projeto encontra a sua própria forma.'],['crescimento','O estúdio cresce com os clientes, projeto a projeto.']]});
 let CURCASE=null, ADMIN_TAB='projetos', CTAB='cliente', EDIT_P=null;
+let CHAT=load('forma_chat',[]);let PEDIDOS=load('forma_pedidos',[]);let PRE_SCOPE=null;let CHAT_THREAD=null;let REC=null,REC_CHUNKS=[];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
@@ -210,7 +222,8 @@ function isAdmin(){const m=me();return m&&m.is_admin}
 function toggleMenu(){$('menuov').classList.toggle('on')}
 function tickClock(){try{$('localTime').textContent=new Intl.DateTimeFormat('pt-MZ',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Maputo'}).format(new Date())}catch(e){}}
 function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
-function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span></div>`).join('')}
+function renderServicos(){$('servView').innerHTML=SERVICES.map((s,i)=>`<div><b>0${i+1}. ${esc(s.title)}</b><p>${esc(s.desc)}</p><span class="pr">${esc(s.price)}</span><div style="margin-top:12px"><button class="btnw" onclick="pedirServico(${i})">Pedir orçamento →</button></div></div>`).join('')}
+function pedirServico(i){CTAB='cliente';PRE_SCOPE=SERVICES[i].title;go('contacto')}
 function renderHome(){$('strip').innerHTML=`<div class="striptrack">${[...PROJECTS,...PROJECTS].map(p=>`<button class="pcard" onclick="openCase('${p.id}')"><img src="${p.img}" alt=""><span>${esc(p.title)}<small>${esc(p.client)} · ${p.year}</small></span></button>`).join('')}</div>`;setTimeout(typePhrase,900)}
 const PHRASE='FORMA é um estúdio criativo de Maputo — design, marca, fotografia e vídeo para marcas que querem ser lembradas.';
 function typePhrase(){const el=document.getElementById('phrasetext');if(!el)return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=PHRASE;return}el.textContent='';let i=0;clearInterval(window._tp);window._tp=setInterval(()=>{i++;el.textContent=PHRASE.slice(0,i);if(i>=PHRASE.length)clearInterval(window._tp)},38)}
@@ -234,7 +247,7 @@ $('aboutBox').innerHTML=`<h1>sobre</h1><section class="manifesto" style="padding
 <h2 style="font-size:30px;margin:20px 0">processo</h2>
 <div class="steps">${[['ver','Olhamos para o problema com calma, antes de qualquer ideia.'],['explorar','Caminhos abertos, referências e testes, sem pressa de fechar.'],['moldar','Definimos tom, história e lógica visual do projeto.'],['criar','A ideia ganha forma final, com rigor em cada detalhe.'],['refinar','Ajustamos até o trabalho ficar exato.'],['evoluir','O projeto continua a crescer depois da entrega.']].map((s,i)=>`<div><b>0${i+1}</b><p><b style="color:#ECE4D4">${s[0]}</b> — ${s[1]}</p></div>`).join('')}</div>`;
 }
-function tabContacto(t){CTAB=t;['Cliente','Talento','Email'].forEach(n=>$('tab'+n).classList.toggle('on',n.toLowerCase()===t));renderBrief()}
+function tabContacto(t){CTAB=t;['Cliente','Talento','Email'].forEach(n=>$('tab'+n).classList.toggle('on',n.toLowerCase()===t));renderBrief();if(PRE_SCOPE&&CTAB==='cliente'){const c=document.querySelectorAll('#briefBox .chks')[0];if(c)c.querySelectorAll('label').forEach(l=>{if(l.textContent.trim().toLowerCase()===PRE_SCOPE.toLowerCase())l.querySelector('input').checked=true});PRE_SCOPE=null}}
 function renderBrief(){
 if(CTAB==='email'){$('briefBox').innerHTML=`<p style="font-size:18px;line-height:1.6">Escreve-nos para <b>${esc(SETTINGS.email)}</b> ou fala connosco já no WhatsApp.</p><button class="send" onclick="waChat()">WhatsApp →</button>`;return}
 if(CTAB==='talento'){$('briefBox').innerHTML=`<p style="font-size:18px;line-height:1.6;margin-bottom:10px">Junta-te à nossa rede de talento.</p>
@@ -248,17 +261,25 @@ $('briefBox').innerHTML=`<label>01. Âmbito</label><div class="chks">${['Direç�
 <label>04. Nome *</label><input id="bName"><label>05. Email *</label><input id="bEmail" type="email"><label>06. Empresa</label><input id="bCompany"><label>07. Prazo</label><input id="bTime"><label>08. Nota</label><textarea id="bNote"></textarea>
 <button class="send" onclick="submitBrief()">Send →</button><div id="briefOk"></div>`;
 }
-function submitBrief(){const n=$('bName')&&$('bName').value.trim(),e=$('bEmail')&&$('bEmail').value.trim();if(!n||!e||!e.includes('@')){alert('Escreve o nome e um email válido.');return}$('briefOk').innerHTML='<p style="margin-top:16px;font-weight:700">Obrigado! Respondemos em 48 horas.</p><button class="send" onclick="waChat()">Ou fala já no WhatsApp →</button>';}
+function submitBrief(){const n=$('bName')&&$('bName').value.trim(),e=$('bEmail')&&$('bEmail').value.trim();if(!n||!e||!e.includes('@')){alert('Escreve o nome e um email válido.');return}
+const chks=[...document.querySelectorAll('#briefBox .chks')];
+const firstChecked=chks.length?[...chks[0].querySelectorAll('input:checked')].map(i=>i.parentNode.textContent.trim()):[];
+const radioNm=nm=>{const r=document.querySelector('#briefBox input[name='+nm+']:checked');return r?r.parentNode.textContent.trim():''};
+let rec={id:'pd'+Date.now(),tipo:CTAB,nome:n,email:e,data:new Date().toISOString(),estado:'novo'};
+if(CTAB==='talento'){rec.areas=firstChecked;rec.nivel=radioNm('lvl');rec.portfolio=$('bPort').value.trim();rec.cidade=$('bCity').value.trim()}
+else{rec.ambito=firstChecked;rec.formato=radioNm('fmt');rec.orcamento=radioNm('bud');rec.empresa=$('bCompany').value.trim();rec.prazo=$('bTime').value.trim();rec.nota=$('bNote').value.trim();if(SESSION)rec.conta=SESSION}
+PEDIDOS.unshift(rec);save('forma_pedidos',PEDIDOS);
+$('briefOk').innerHTML='<p style="margin-top:16px;font-weight:700">Obrigado! O teu pedido ficou registado e respondemos em 48 horas.</p><button class="send" onclick="waChat()">Ou fala já no WhatsApp →</button>';}
 function renderConta(){
 const m=me();
 if(!m){$('accBox').innerHTML=`<div style="max-width:420px"><label style="display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Email</label><input id="aEmail" type="email" style="margin-bottom:12px"><label style="display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Palavra-passe</label><input id="aPass" type="password" style="margin-bottom:12px"><label style="display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Nome</label><input id="aName" placeholder="só no registo" style="margin-bottom:16px"><button class="btn" onclick="loginSubmit()">Entrar</button> <button class="btnw" onclick="regSubmit()">Criar conta</button><p class="mut" style="margin-top:12px">A primeira conta criada é a da gerência.</p></div>`;return}
-$('accBox').innerHTML=`<div class="bcard"><b>${esc(m.name||m.email)}</b><div class="mut">${esc(m.email)}</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">${m.is_admin?`<button class="btn" onclick="go('admin')">Gerência</button>`:''}<button class="btnw" onclick="logout()">Sair</button></div></div>`;
+$('accBox').innerHTML=`<div class="bcard"><b>${esc(m.name||m.email)}</b><div class="mut">${esc(m.email)}</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">${m.is_admin?`<button class="btn" onclick="go('admin')">Gerência</button>`:''}<button class="btnw" onclick="go('chat')">Chat</button><button class="btnw" onclick="logout()">Sair</button></div></div>`;
 }
 async function loginSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$('aPass').value;const a=ACCOUNTS.find(x=>x.email===e);if(!a||a.pass!==await sha(p)){alert('Email ou palavra-passe errados.');return}SESSION=e;save('forma_session',SESSION);go('inicio')}
 async function regSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$('aPass').value,n=$('aName').value.trim();if(!e.includes('@')||p.length<4){alert('Escreve um email válido e uma palavra-passe com 4 ou mais caracteres.');return}if(ACCOUNTS.find(x=>x.email===e)){alert('Já existe uma conta com esse email. Entra em vez disso.');return}ACCOUNTS.push({email:e,pass:await sha(p),name:n||e,is_admin:ACCOUNTS.length===0});save('forma_accounts',ACCOUNTS);SESSION=e;save('forma_session',SESSION);go('inicio')}
 function logout(){SESSION=null;save('forma_session',SESSION);go('inicio')}
 
-function adminNavRender(){$('adminNav').innerHTML=[['projetos','Projetos'],['servicos','Serviços'],['sobre','Sobre'],['definicoes','Definições']].map(t=>`<button class="${ADMIN_TAB===t[0]?'on':''}" onclick="adminTab('${t[0]}')">${t[1]}</button>`).join('')}
+function adminNavRender(){$('adminNav').innerHTML=[['projetos','Projetos'],['servicos','Serviços'],['sobre','Sobre'],['pedidos','Pedidos'],['conversas','Conversas'],['definicoes','Definições']].map(t=>`<button class="${ADMIN_TAB===t[0]?'on':''}" onclick="adminTab('${t[0]}')">${t[1]}</button>`).join('')}
 function adminTab(t){ADMIN_TAB=t;renderAdmin()}
 function renderAdmin(){
 if(!isAdmin()){$('adminBox').innerHTML='<p class="mut">Área reservada à gerência.</p>';return}
@@ -271,19 +292,41 @@ $('adminBox').innerHTML=`<table><tr><th>Serviço</th><th>Preço</th><th></th></t
 <div class="bcard" style="margin-top:16px"><b id="servFormTitle">Novo serviço</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fSTitle" placeholder="Título em minúsculas"><textarea id="fSDesc" placeholder="Descrição"></textarea><input id="fSPrice" placeholder="Preço (ex: a partir de 85.000 MT)"><button class="btn" onclick="servSave()">Guardar serviço</button></div></div>`;
 }else if(ADMIN_TAB==='sobre'){
 $('adminBox').innerHTML=`<div class="bcard" style="display:grid;gap:10px;max-width:640px"><b>Sobre o estúdio</b><label>Introdução</label><textarea id="fAbout">${esc(ABOUT.intro)}</textarea><button class="btn" onclick="saveAbout()">Guardar</button></div>`;
+}else if(ADMIN_TAB==='pedidos'){
+$('adminBox').innerHTML=PEDIDOS.length?`<table><tr><th>Pedido</th><th>Contacto</th><th>Estado</th><th></th></tr>${PEDIDOS.map((r,i)=>`<tr><td><b>${esc(r.tipo)}</b> — ${esc(r.nome)}<br><span class="mut">${esc(((r.ambito||r.areas||[]).join(', ')))}${r.orcamento?' · '+esc(r.orcamento):''}${r.nota?' — '+esc(r.nota):''}</span></td><td>${esc(r.email)}<br><span class="mut">${new Date(r.data).toLocaleDateString('pt-MZ')}</span></td><td>${esc(r.estado)}</td><td><button onclick="pedidoEstado(${i})">${r.estado==='novo'?'Marcar tratado':'Reabrir'}</button> <button onclick="pedidoDel(${i})">Apagar</button></td></tr>`).join('')}</table>`:'<p class="mut">Ainda não há pedidos.</p>';
+}else if(ADMIN_TAB==='conversas'){
+const users=[...new Set(CHAT.filter(m=>m.from!=='gerência').map(m=>m.from))];
+if(!CHAT_THREAD){$('adminBox').innerHTML=users.length?users.map(u=>{const th=CHAT.filter(m=>m.from===u||m.to===u);const last=th[th.length-1];const un=CHAT.filter(m=>m.from===u&&!m.seen).length;return `<button class="convbtn" onclick="CHAT_THREAD='${u}';renderAdmin()">${esc(u)}${un?` <b>(${un} novas)</b>`:''}<br><span class="mut">${esc(((last.text||'[ficheiro/áudio]').slice(0,60)))}</span></button>`}).join(''):'<p class="mut">Ainda não há conversas.</p>';}
+else{const u=CHAT_THREAD;CHAT.forEach(m=>{if(m.from===u&&!m.seen)m.seen=true});save('forma_chat',CHAT);const th=CHAT.filter(m=>m.from===u||m.to===u);$('adminBox').innerHTML=`<button class="btnw" onclick="CHAT_THREAD=null;renderAdmin()">← Todas as conversas</button><div class="chatmsgs" style="margin-top:12px">${th.map(x=>msgHtml(x,x.from==='gerência')).join('')}</div><div class="chatin"><input type="text" id="admChatIn" placeholder="Escreve a resposta..."><button class="btn" onclick="adminChatSend()">Enviar</button></div>`;}
+
 }else{
 $('adminBox').innerHTML=`<div class="bcard" style="display:grid;gap:10px;max-width:520px"><b>Definições</b><label>WhatsApp (ex: 25884…)</label><input id="fWa" value="${esc(SETTINGS.whatsapp)}"><label>Email de contacto</label><input id="fEmail" value="${esc(SETTINGS.email)}"><button class="btn" onclick="saveSettings()">Guardar definições</button></div>`;
 }
 }
 function projPhoto(inp,which){const f=inp.files[0];if(!f)return;if(f.size>10*1024*1024){alert('A foto deve ter até 10 MB.');return}const r=new FileReader();r.onload=()=>{$(which==='main'?'fPImg':which==='own1'?'fPOwn1v':which==='own2'?'fPOwn2v':'fPGal').value=r.result;alert('Foto carregada. Guarda o projeto para aplicar.');};r.readAsDataURL(f)}
 function projEdit(id){const p=PROJECTS.find(x=>x.id===id);if(!p)return;EDIT_P=id;renderAdmin();$('projFormTitle').textContent='Editar projeto';$('fPTitle').value=p.title;$('fPClient').value=p.client;$('fPYear').value=p.year;$('fPServ').value=p.services;$('fPIntro').value=p.intro;$('fPResult').value=p.result||'';$('fPImg').value=p.img;$('fPGal').value=p.gal;$('fPOwn1v').value=(p.own&&p.own[1])||'';$('fPOwn2v').value=(p.own&&p.own[2])||'';window.scrollTo(0,document.body.scrollHeight)}
-function projSave(){const title=$('fPTitle').value.trim().toLowerCase(),client=$('fPClient').value.trim(),year=+($('fPYear').value)||new Date().getFullYear(),serv=$('fPServ').value.trim(),intro=$('fPIntro').value.trim(),result=$('fPResult').value.trim(),img=$('fPImg').value,gal=$('fPGal').value,o1=$('fPOwn1v').value,o2=$('fPOwn2v').value;if(!title){alert('Escreve o título do projeto.');return}if(EDIT_P){const p=PROJECTS.find(x=>x.id===EDIT_P);const ownNew=[gal||p.gal];if(o1)ownNew.push(o1);if(o2)ownNew.push(o2);Object.assign(p,{title,client:client||p.client,year,services:serv||p.services,intro:intro||p.intro,result:result||p.result,img:img||p.img,gal:gal||p.gal,own:ownNew});}else{PROJECTS.push(P('p'+Date.now(),title,client||'Projeto',year,serv||'Direção criativa',img||IMG.f1,gal||IMG.f2,intro||title,result||'Entrega final com acompanhamento.',[gal||IMG.f2,o1,o2].filter(Boolean)));}EDIT_P=null;save('forma_projects',PROJECTS);renderHome();renderAdmin();alert('Projeto guardado.')}
+function projSave(){const title=$('fPTitle').value.trim().toLowerCase(),client=$('fPClient').value.trim(),year=+($('fPYear').value)||new Date().getFullYear(),serv=$('fPServ').value.trim(),intro=$('fPIntro').value.trim(),result=$('fPResult').value.trim(),img=$('fPImg').value,gal=$('fPGal').value,o1=$('fPOwn1v').value,o2=$('fPOwn2v').value;if(!title){alert('Escreve o título do projeto.');return}if(EDIT_P){const p=PROJECTS.find(x=>x.id===EDIT_P);const oldOwn=(p.own&&p.own.length)?p.own.slice():[p.gal];const ownNew=[gal||p.gal];for(let k=1;k<oldOwn.length;k++)ownNew.push(oldOwn[k]);if(o1)ownNew[1]=o1;if(o2)ownNew[2]=o2;Object.assign(p,{title,client:client||p.client,year,services:serv||p.services,intro:intro||p.intro,result:result||p.result,img:img||p.img,gal:gal||p.gal,own:ownNew});}else{PROJECTS.push(P('p'+Date.now(),title,client||'Projeto',year,serv||'Direção criativa',img||IMG.f1,gal||IMG.f2,intro||title,result||'Entrega final com acompanhamento.',[gal||IMG.f2,o1,o2].filter(Boolean)));}EDIT_P=null;save('forma_projects',PROJECTS);renderHome();renderAdmin();alert('Projeto guardado.')}
 function projDel(id){if(!confirm('Apagar este projeto?'))return;PROJECTS=PROJECTS.filter(p=>p.id!==id);save('forma_projects',PROJECTS);renderHome();renderAdmin()}
 function servEdit(i){const s=SERVICES[i];EDIT_S=i;renderAdmin();$('servFormTitle').textContent='Editar serviço';$('fSTitle').value=s.title;$('fSDesc').value=s.desc;$('fSPrice').value=s.price}
 function servSave(){const t=$('fSTitle').value.trim().toLowerCase(),d=$('fSDesc').value.trim(),pr=$('fSPrice').value.trim();if(!t){alert('Escreve o título do serviço.');return}if(EDIT_S!==null){SERVICES[EDIT_S]={title:t,desc:d,price:pr}}else{SERVICES.push({title:t,desc:d,price:pr})}EDIT_S=null;save('forma_services',SERVICES);renderHome();renderAdmin();alert('Serviço guardado.')}
 function servDel(i){if(!confirm('Apagar este serviço?'))return;SERVICES.splice(i,1);save('forma_services',SERVICES);renderHome();renderAdmin()}
 function saveAbout(){ABOUT.intro=$('fAbout').value.trim();save('forma_about',ABOUT);alert('Texto guardado.')}
 function saveSettings(){SETTINGS.whatsapp=$('fWa').value.trim();SETTINGS.email=$('fEmail').value.trim();save('forma_settings',SETTINGS);alert('Definições guardadas.')}
+
+function msgHtml(m,mine){let body='';if(m.text)body+=`<div>${esc(m.text)}</div>`;if(m.file){if(m.file.startsWith('data:image'))body+=`<img src="${m.file}" style="max-width:100%">`;else if(m.file.startsWith('data:audio'))body+=`<audio controls src="${m.file}" style="width:100%"></audio>`;else body+=`<a href="${m.file}" download="${esc(m.fname||'ficheiro')}">📎 ${esc(m.fname||'ficheiro')}</a>`}if(m.audio)body+=`<audio controls src="${m.audio}" style="width:100%"></audio>`;return `<div class="msg ${mine?'mine':'theirs'}">${body}<div class="mt">${new Date(m.time).toLocaleString('pt-MZ',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})} ${mine?(m.seen?'✓✓':'✓'):''}</div></div>`}
+function renderChat(){
+const m=me();
+if(!m){$('chatBox').innerHTML=`<div class="chatwrap"><h1 style="font-size:clamp(40px,7vw,90px);font-weight:800">chat</h1><p style="font-size:18px;line-height:1.6">O chat é só para quem tem conta. Entra ou cria a tua conta para falares connosco.</p><button class="btn" onclick="go('conta')">Entrar / Criar conta</button></div>`;return}
+CHAT.forEach(x=>{if(x.from==='gerência'&&x.to===m.email&&!x.seen)x.seen=true});save('forma_chat',CHAT);
+const th=CHAT.filter(x=>x.from===m.email||x.to===m.email);
+$('chatBox').innerHTML=`<div class="chatwrap"><h1 style="font-size:clamp(28px,5vw,54px);font-weight:800">chat — FORMA</h1><div class="mut" style="margin-bottom:8px">${esc(m.email)}</div><div class="chatmsgs">${th.map(x=>msgHtml(x,x.from===m.email)).join('')||'<p class="mut">Ainda não há mensagens. Escreve a primeira.</p>'}</div><div class="chatin"><input type="text" id="chatIn" placeholder="Escreve a tua mensagem..."><label class="btnw" style="cursor:pointer;padding:12px 16px">📎<input type="file" id="chatFile" accept="image/*,audio/*,.pdf" style="display:none" onchange="chatFilePicked(this)"></label><button class="btnw" id="recBtn" onclick="toggleRec()">● Gravar</button><button class="btn" onclick="chatSend()">Enviar</button></div></div>`;
+}
+function chatSend(){const m=me();if(!m)return;const inp=$('chatIn');const t=inp.value.trim();const f=$('chatFile');if(!t&&!(f&&f.files[0]))return;if(f&&f.files[0]){const fl=f.files[0];if(fl.size>5*1024*1024){alert('O ficheiro deve ter até 5 MB.');return}const r=new FileReader();r.onload=()=>{CHAT.push({id:Date.now(),from:m.email,to:'gerência',text:t,file:r.result,fname:fl.name,time:Date.now(),seen:false});save('forma_chat',CHAT);renderChat()};r.readAsDataURL(fl)}else{CHAT.push({id:Date.now(),from:m.email,to:'gerência',text:t,time:Date.now(),seen:false});save('forma_chat',CHAT);renderChat()}}
+function chatFilePicked(inp){if(inp.files[0])alert('Ficheiro pronto: '+inp.files[0].name+'. Carrega em Enviar.')}
+async function toggleRec(){const btn=$('recBtn');if(REC){REC.stop();return}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});REC_CHUNKS=[];REC=new MediaRecorder(stream);REC.ondataavailable=e=>{if(e.data.size)REC_CHUNKS.push(e.data)};REC.onstop=()=>{const blob=new Blob(REC_CHUNKS,{type:'audio/webm'});const r=new FileReader();r.onload=()=>{const m=me();if(m){CHAT.push({id:Date.now(),from:m.email,to:'gerência',audio:r.result,time:Date.now(),seen:false});save('forma_chat',CHAT);renderChat()}};r.readAsDataURL(blob);REC=null;btn.textContent='● Gravar'};REC.start();btn.textContent='■ Parar'}catch(e){alert('Não foi possível aceder ao microfone.')}} 
+function adminChatSend(){const t=$('admChatIn').value.trim();if(!t||!CHAT_THREAD)return;CHAT.push({id:Date.now(),from:'gerência',to:CHAT_THREAD,text:t,time:Date.now(),seen:false});save('forma_chat',CHAT);renderAdmin()}
+function pedidoEstado(i){PEDIDOS[i].estado=PEDIDOS[i].estado==='novo'?'tratado':'novo';save('forma_pedidos',PEDIDOS);renderAdmin()}
+function pedidoDel(i){if(!confirm('Apagar este pedido?'))return;PEDIDOS.splice(i,1);save('forma_pedidos',PEDIDOS);renderAdmin()}
 function go(v){
 document.body.classList.toggle('home',v==='inicio');
 document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
@@ -295,10 +338,11 @@ if(v==='sobre')renderSobre();
 if(v==='servicos')renderServicos();
 if(v==='contacto'){tabContacto(CTAB)}
 if(v==='conta')renderConta();
+if(v==='chat')renderChat();
 if(v==='admin')renderAdmin();
 window.scrollTo(0,0);
 }
-function route(){const h=(location.hash||'#inicio').replace('#','');const parts=h.split('/');if(parts[0]==='caso'&&parts[1]){CURCASE=parts[1];go('caso')}else if(['inicio','arquivo','sobre','servicos','contacto','conta','admin'].includes(parts[0]))go(parts[0]);else go('inicio')}
+function route(){const h=(location.hash||'#inicio').replace('#','');const parts=h.split('/');if(parts[0]==='caso'&&parts[1]){CURCASE=parts[1];go('caso')}else if(['inicio','arquivo','sobre','servicos','contacto','conta','admin','chat'].includes(parts[0]))go(parts[0]);else go('inicio')}
 window.addEventListener('hashchange',route);
 tickClock();setInterval(tickClock,30000);
 route();renderHome();
