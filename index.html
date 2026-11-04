@@ -83,6 +83,7 @@ main{max-width:1400px;margin:0 auto;padding:122px 20px 40px}
 .chks input{width:auto}
 .send{background:#39412F;border:2px solid #39412F;color:#ECE4D4;font-size:18px;font-weight:800;padding:16px 26px;margin-top:24px;box-shadow:4px 4px 0 rgba(0,0,0,.25)}
 .menuov{position:fixed;inset:0;background:#0E0C09;z-index:80;display:none;flex-direction:column;padding:22px;overflow-y:auto}
+.menuov>*{flex-shrink:0}
 .menuov.on{display:flex}
 .menuov a{display:block;font-size:clamp(44px,9vw,96px);font-weight:800;text-transform:lowercase;letter-spacing:-.02em;color:#ECE4D4;text-decoration:none;padding:8px 0;cursor:pointer}
 .menuov .mclose{align-self:flex-end;background:#221C15;border:1px solid #ECE4D4;color:#ECE4D4;font-size:26px;padding:6px 14px}
@@ -200,6 +201,7 @@ function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 let PROJECTS=load('forma_projects',PROJECTS_DEFAULT);
 PROJECTS.forEach(p=>{if(!p.own||!p.own.length)p.own=[p.gal]});
+const DEF_BY_ID={};PROJECTS_DEFAULT.forEach(p=>DEF_BY_ID[p.id]=p);let _mg=false;PROJECTS.forEach(p=>{const d=DEF_BY_ID[p.id];if(d&&d.own&&p.own&&p.own.length<d.own.length){for(let k=p.own.length;k<d.own.length;k++)p.own.push(d.own[k]);_mg=true}});if(_mg)save('forma_projects',PROJECTS);
 let SERVICES=load('forma_services',[
 {title:'direção criativa',desc:'Conceito, história e direção visual de projetos e campanhas.',price:'a partir de 85.000 MT'},
 {title:'design de marca',desc:'Identidade completa: nome, logótipo, cores, tipografia e manual.',price:'a partir de 120.000 MT'},
